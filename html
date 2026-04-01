@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GRILLINOX – Asadores de Acero Inoxidable</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@400;500;600;700&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --steel: #c8d6e0;
+    --steel-dark: #7a8f9e;
+    --steel-shine: #eef4f7;
+    --fire: #ff6a00;
+    --ember: #ff3d00;
+    --glow-blue: #00cfff;
+    --black: #080c0f;
+    --dark: #0f1820;
+    --panel: #131e28;
+    --border: rgba(200,214,224,0.15);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--steel);
+    font-family: 'Rajdhani', sans-serif;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* CUSTOM CURSOR */
+  .cursor {
+    width: 20px; height: 20px;
+    border: 2px solid var(--fire);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.1s, background 0.2s;
+    transform: translate(-50%, -50%);
+  }
+  .cursor.hovered { background: rgba(255,106,0,0.3); transform: translate(-50%, -50%) scale(1.8); }
+  .cursor-dot {
+    width: 5px; height: 5px;
+    background: var(--glow-blue);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+  }
+
+  /* HERO */
+  #inicio {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    background: radial-gradient(ellipse at 50% 60%, #1a2a35 0%, var(--black) 70%);
+  }
+
+  .sparks-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .hero-content {
+    position: relative; z-index: 2;
+    text-align: center;
+    padding: 2rem;
+  }
+
+  .hero-gm {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(5rem, 15vw, 10rem);
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    padding: 0.8rem 2rem;
+    color: transparent;
+    -webkit-text-stroke: 2px #999999;
+    text-stroke: 2px #999999;
+    position: relative;
+    display: inline-block;
+    filter: drop-shadow(-1px -1px 2px rgba(255,255,255,0.4)) drop-shadow(1px 1px 2px rgba(0,0,0,0.7));
+  }
+
+  .hero-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.5rem, 8vw, 5.5rem);
+    letter-spacing: 0.15em;
+    background: linear-gradient(90deg, var(--fire) 0%, #ffb300 40%, var(--fire) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 0 20px rgba(255,106,0,0.6));
+    animation: fadeSlideUp 1s 0.2s ease both;
+  }
+
+  .hero-sub {
+    font-size: clamp(0.85rem, 2vw, 1.1rem);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--steel-dark);
+    margin-top: 0.5rem;
+    animation: fadeSlideUp 1s 0.4s ease both;
+  }
+
+  .hero-line {
+    width: 120px; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--fire), transparent);
+    margin: 1.5rem auto;
+    animation: fadeSlideUp 1s 0.5s ease both;
+  }
+
+  .cta-group {
+    display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+    margin-top: 2rem;
+    animation: fadeSlideUp 1s 0.6s ease both;
+  }
+
+  .btn {
+    display: inline-flex; align-items: center; gap: 0.6rem;
+    padding: 0.85rem 2rem;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1rem; font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .btn::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(255,255,255,0.1);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .btn:hover::after { opacity: 1; }
+
+  .btn-fire {
+    background: linear-gradient(135deg, var(--ember), var(--fire));
+    color: #fff;
+    box-shadow: 0 0 30px rgba(255,106,0,0.5);
+  }
+  .btn-fire:hover { transform: translateY(-2px); box-shadow: 0 0 50px rgba(255,106,0,0.8); }
+
+  .btn-steel {
+    background: transparent;
+    color: var(--steel);
+    border: 1px solid var(--steel-dark);
+  }
+  .btn-steel:hover { border-color: var(--glow-blue); color: var(--glow-blue); box-shadow: 0 0 20px rgba(0,207,255,0.3); transform: translateY(-2px); }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1rem 2.5rem;
+    background: rgba(8,12,15,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    transition: all 0.3s;
+  }
+  .nav-brand { font-family: 'Orbitron', sans-serif; font-size: 1.2rem; font-weight: 900; color: var(--steel-shine); letter-spacing: 0.1em; }
+  .nav-brand span { color: var(--fire); }
+  .nav-links { display: flex; gap: 2rem; }
+  .nav-links a {
+    color: var(--steel-dark); font-weight: 600; letter-spacing: 0.08em;
+    text-decoration: none; font-size: 0.9rem; text-transform: uppercase;
+    transition: color 0.2s;
+    position: relative;
+  }
+  .nav-links a::after {
+    content: ''; position: absolute; bottom: -4px; left: 0; right: 0; height: 1px;
+    background: var(--fire); transform: scaleX(0); transition: transform 0.2s;
+  }
+  .nav-links a:hover { color: var(--steel-shine); }
+  .nav-links a:hover::after { transform: scaleX(1); }
+  .nav-contact {
+    display: flex; gap: 0.8rem;
+  }
+  .nav-icon-btn {
+    display: flex; align-items: center; gap: 0.4rem;
+    padding: 0.5rem 1rem;
+    font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 0.85rem;
+    text-decoration: none; border-radius: 2px;
+    transition: all 0.25s;
+    text-transform: uppercase; letter-spacing: 0.05em;
+  }
+  .btn-wa { background: #25D366; color: #fff; }
+  .btn-wa:hover { background: #1ebe5c; box-shadow: 0 0 20px rgba(37,211,102,0.5); transform: translateY(-1px); }
+  .btn-call { background: var(--panel); color: var(--steel); border: 1px solid var(--border); }
+  .btn-call:hover { border-color: var(--glow-blue); color: var(--glow-blue); transform: translateY(-1px); }
+
+  /* SECTIONS */
+  section { padding: 6rem 2rem; }
+  .section-header {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+  .section-tag {
+    display: inline-block;
+    font-size: 0.75rem; letter-spacing: 0.4em; text-transform: uppercase;
+    color: var(--fire); border: 1px solid rgba(255,106,0,0.3);
+    padding: 0.3rem 1rem; margin-bottom: 1rem;
+  }
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    letter-spacing: 0.05em;
+    color: var(--steel-shine);
+    line-height: 1;
+  }
+  .section-line {
+    width: 60px; height: 3px;
+    background: linear-gradient(90deg, var(--fire), var(--ember));
+    margin: 1.2rem auto 0;
+  }
+
+  /* PRODUCTS */
+  #productos {
+    background: var(--dark);
+    position: relative;
+  }
+  #productos::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(
+      90deg,
+      rgba(200,214,224,0.015) 0px,
+      rgba(200,214,224,0.015) 1px,
+      transparent 1px,
+      transparent 60px
+    );
+    pointer-events: none;
+  }
+
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .product-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s;
+    cursor: pointer;
+  }
+  .product-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--fire), transparent);
+    transform: scaleX(0);
+    transition: transform 0.4s;
+  }
+  .product-card:hover { transform: translateY(-6px); border-color: rgba(255,106,0,0.4); box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 40px rgba(255,106,0,0.1); }
+  .product-card:hover::before { transform: scaleX(1); }
+
+  .product-img {
+    width: 100%; height: 220px;
+    object-fit: cover;
+    display: block;
+    background: linear-gradient(135deg, #1a2a35, #0f1820);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .product-emoji-display {
+    width: 100%; height: 220px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 5rem;
+    background: linear-gradient(135deg, #0d1b26, #1a2f40);
+    position: relative;
+    overflow: hidden;
+  }
+  .product-emoji-display::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 50% 80%, rgba(255,106,0,0.15), transparent 60%);
+  }
+
+  .badge-featured {
+    position: absolute; top: 12px; right: 12px;
+    background: linear-gradient(135deg, var(--fire), var(--ember));
+    color: #fff; font-size: 0.7rem; font-weight: 700;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 0.25rem 0.7rem;
+    z-index: 2;
+  }
+
+  .product-body { padding: 1.5rem; }
+  .product-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.6rem; letter-spacing: 0.05em;
+    color: var(--steel-shine);
+    line-height: 1.1;
+  }
+  .product-model {
+    font-size: 0.75rem; letter-spacing: 0.2em;
+    color: var(--fire); text-transform: uppercase;
+    margin-bottom: 0.8rem;
+  }
+  .product-desc {
+    font-size: 0.95rem; line-height: 1.5;
+    color: var(--steel-dark);
+    margin-bottom: 1.2rem;
+  }
+
+  .specs-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 0.5rem; margin-bottom: 1.5rem;
+  }
+  .spec-item {
+    background: rgba(255,255,255,0.04);
+    padding: 0.5rem 0.7rem;
+    border-left: 2px solid var(--fire);
+  }
+  .spec-label { font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--steel-dark); }
+  .spec-val { font-size: 0.9rem; font-weight: 700; color: var(--steel-shine); }
+
+  .product-footer {
+    display: flex; align-items: center; justify-content: space-between;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+  }
+  .price {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.4rem; font-weight: 700;
+    color: var(--fire);
+    line-height: 1;
+  }
+  .price small { font-size: 0.7rem; font-family: 'Rajdhani', sans-serif; color: var(--steel-dark); display: block; margin-top: 2px; }
+
+  .btn-order {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    padding: 0.65rem 1.2rem;
+    background: linear-gradient(135deg, #25D366, #1abe5c);
+    color: #fff; font-family: 'Rajdhani', sans-serif;
+    font-weight: 700; font-size: 0.9rem;
+    letter-spacing: 0.05em; text-transform: uppercase;
+    text-decoration: none; border: none; cursor: pointer;
+    transition: all 0.25s;
+  }
+  .btn-order:hover { transform: scale(1.05); box-shadow: 0 0 25px rgba(37,211,102,0.5); }
+
+  /* MODAL */
+  .modal-overlay {
+    display: none;
+    position: fixed; inset: 0; z-index: 500;
+    background: rgba(0,0,0,0.85);
+    backdrop-filter: blur(6px);
+    align-items: center; justify-content: center;
+    padding: 1rem;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: var(--panel);
+    border: 1px solid rgba(255,106,0,0.3);
+    max-width: 700px; width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    animation: modalIn 0.3s ease;
+  }
+  @keyframes modalIn {
+    from { opacity: 0; transform: translateY(30px) scale(0.97); }
+    to   { opacity: 1; transform: none; }
+  }
+  .modal-close {
+    position: absolute; top: 1rem; right: 1rem;
+    background: rgba(255,106,0,0.15); border: 1px solid rgba(255,106,0,0.3);
+    color: var(--fire); width: 36px; height: 36px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem; cursor: pointer; z-index: 2;
+    transition: all 0.2s;
+  }
+  .modal-close:hover { background: var(--fire); color: #fff; }
+  .modal-img-zone {
+    width: 100%; height: 500px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 6rem;
+    background: linear-gradient(135deg, #0d1b26, #1a2f40);
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+  .modal-img-zone img {
+    cursor: zoom-in;
+    transition: opacity 0.3s ease;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    padding: 10px;
+  }
+  .modal-img-zone img:hover {
+    transform: scale(1.1);
+  }
+  .modal-img-nav {
+    position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%);
+    display: flex; gap: 8px; z-index: 10;
+    background: rgba(0,0,0,0.7); padding: 10px 14px; border-radius: 8px;
+    backdrop-filter: blur(6px);
+  }
+  .modal-img-thumb {
+    width: 60px; height: 60px; border-radius: 6px;
+    cursor: pointer; transition: all 0.3s;
+    border: 2px solid transparent; overflow: hidden;
+    opacity: 0.7;
+  }
+  .modal-img-thumb:hover {
+    opacity: 0.9; transform: scale(1.08);
+  }
+  .modal-img-thumb.active {
+    border-color: var(--fire); opacity: 1;
+    box-shadow: 0 0 12px rgba(255,106,0,0.6);
+  }
+  .modal-img-thumb img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+  }
+    position: absolute; top: 50%; transform: translateY(-50%);
+    width: 40px; height: 40px;
+    background: rgba(0,0,0,0.5); border: 1px solid var(--border);
+    color: var(--steel); font-size: 1.5rem;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; transition: all 0.2s;
+    z-index: 10;
+  }
+  .modal-img-arrow:hover { background: rgba(0,0,0,0.8); color: var(--fire); }
+  .modal-img-arrow.prev { left: 10px; }
+  .modal-img-arrow.next { right: 10px; }
+  .modal-img-zone::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 50% 90%, rgba(255,106,0,0.2), transparent 60%);
+    pointer-events: none;
+  }
+  .modal-body { padding: 2rem; }
+  .modal-name { font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem; color: var(--steel-shine); letter-spacing: 0.05em; }
+  .modal-model { color: var(--fire); font-size: 0.8rem; letter-spacing: 0.3em; text-transform: uppercase; margin-bottom: 1rem; }
+  .modal-desc { color: var(--steel-dark); font-size: 1rem; line-height: 1.6; margin-bottom: 2rem; }
+  .modal-specs-title { font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 0.8rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--steel-dark); margin-bottom: 0.8rem; }
+  .modal-specs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 0.6rem; margin-bottom: 2rem; }
+  .modal-spec { background: rgba(255,255,255,0.04); padding: 0.7rem; border-left: 2px solid var(--fire); }
+  .modal-spec-label { font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--steel-dark); }
+  .modal-spec-val { font-size: 1rem; font-weight: 700; color: var(--steel-shine); }
+  .modal-price-row { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; padding-top: 1.5rem; border-top: 1px solid var(--border); }
+  .modal-price { font-family: 'Orbitron', sans-serif; font-size: 2rem; color: var(--fire); }
+  .modal-actions { display: flex; gap: 0.8rem; flex-wrap: wrap; }
+
+  /* FEATURES */
+  #caracteristicas {
+    background: var(--black);
+  }
+  .features-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1.5rem; max-width: 1100px; margin: 0 auto;
+  }
+  .feature-card {
+    padding: 2rem 1.5rem;
+    border: 1px solid var(--border);
+    background: rgba(255,255,255,0.02);
+    text-align: center;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .feature-card::before {
+    content: '';
+    position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, var(--fire), var(--glow-blue));
+    transform: scaleX(0); transition: transform 0.3s;
+  }
+  .feature-card:hover { border-color: rgba(0,207,255,0.2); transform: translateY(-4px); }
+  .feature-card:hover::before { transform: scaleX(1); }
+  .feature-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+  .feature-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; letter-spacing: 0.05em; color: var(--steel-shine); margin-bottom: 0.5rem; }
+  .feature-text { font-size: 0.9rem; line-height: 1.5; color: var(--steel-dark); }
+
+  /* CONTACT */
+  #contacto {
+    background: var(--dark);
+  }
+  .contact-wrapper {
+    max-width: 700px; margin: 0 auto; text-align: center;
+  }
+  .contact-desc { font-size: 1.1rem; line-height: 1.6; color: var(--steel-dark); margin-bottom: 3rem; }
+  .contact-cards {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 3rem;
+  }
+  .contact-card {
+    padding: 2rem 1.5rem;
+    border: 1px solid var(--border);
+    background: var(--panel);
+    text-decoration: none;
+    transition: all 0.3s;
+    display: flex; flex-direction: column; align-items: center; gap: 0.8rem;
+  }
+  .contact-card:hover { transform: translateY(-4px); }
+  .contact-card.wa { border-color: rgba(37,211,102,0.3); }
+  .contact-card.wa:hover { border-color: #25D366; box-shadow: 0 0 40px rgba(37,211,102,0.2); }
+  .contact-card.call { border-color: rgba(0,207,255,0.3); }
+  .contact-card.call:hover { border-color: var(--glow-blue); box-shadow: 0 0 40px rgba(0,207,255,0.2); }
+  .contact-icon { font-size: 2.5rem; }
+  .contact-label { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; letter-spacing: 0.05em; }
+  .contact-card.wa .contact-label { color: #25D366; }
+  .contact-card.call .contact-label { color: var(--glow-blue); }
+  .contact-number { font-size: 1.1rem; font-weight: 700; color: var(--steel-shine); }
+  .contact-hint { font-size: 0.8rem; color: var(--steel-dark); }
+
+  /* GOOGLE MAPS */
+  .maps-container {
+    width: 100%; max-width: 800px; margin: 2rem auto 3rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+  }
+  .maps-container iframe {
+    width: 100%; height: 400px; border: none; display: block;
+  }
+  footer {
+    background: #040608;
+    border-top: 1px solid var(--border);
+    padding: 2.5rem 2rem;
+    text-align: center;
+  }
+  .footer-brand { font-family: 'Orbitron', sans-serif; font-size: 1.4rem; font-weight: 900; margin-bottom: 0.5rem; }
+  .footer-brand span { color: var(--fire); }
+  .footer-sub { font-size: 0.8rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--steel-dark); }
+  .footer-divider { width: 60px; height: 1px; background: var(--border); margin: 1.5rem auto; }
+  .footer-copy { font-size: 0.8rem; color: var(--steel-dark); }
+
+  /* FLOATING WA */
+  .floating-wa {
+    position: fixed; bottom: 2rem; right: 2rem; z-index: 200;
+    width: 60px; height: 60px;
+    background: #25D366;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.8rem;
+    text-decoration: none;
+    box-shadow: 0 4px 20px rgba(37,211,102,0.5);
+    animation: pulse-wa 2s infinite;
+    transition: transform 0.2s;
+  }
+  .floating-wa:hover { transform: scale(1.1); }
+  @keyframes pulse-wa {
+    0%,100% { box-shadow: 0 4px 20px rgba(37,211,102,0.5); }
+    50% { box-shadow: 0 4px 40px rgba(37,211,102,0.9); }
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeSlideUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  .reveal {
+    opacity: 0; transform: translateY(30px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  /* SCROLL TOP */
+  .scroll-top {
+    position: fixed; bottom: 2rem; left: 2rem; z-index: 200;
+    width: 44px; height: 44px;
+    background: var(--panel); border: 1px solid var(--border);
+    color: var(--steel); font-size: 1.2rem;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; transition: all 0.2s;
+    opacity: 0; pointer-events: none;
+  }
+  .scroll-top.visible { opacity: 1; pointer-events: auto; }
+  .scroll-top:hover { border-color: var(--fire); color: var(--fire); }
+
+  @media (max-width: 600px) {
+    nav { padding: 0.8rem 1rem; }
+    .nav-links { display: none; }
+    .contact-cards { grid-template-columns: 1fr; }
+    .modal-body { padding: 1.2rem; }
+    .modal-price-row { flex-direction: column; }
+    .modal-actions { width: 100%; }
+    .modal-actions .btn, .modal-actions .btn-order { flex: 1; justify-content: center; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-dot" id="cursorDot"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand"><span>G</span>M GRILLINOX</div>
+  <div class="nav-links">
+    <a href="#productos">Productos</a>
+    <a href="#caracteristicas">Características</a>
+    <a href="#contacto">Contacto</a>
+  </div>
+  <div class="nav-contact">
+    <a href="https://wa.me/528130753818?text=Hola!%20Quiero%20cotizar%20un%20asador" target="_blank" class="nav-icon-btn btn-wa">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      WhatsApp
+    </a>
+    <a href="tel:+528130753818" class="nav-icon-btn btn-call">
+      📞 Llamar
+    </a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="inicio">
+  <canvas class="sparks-canvas" id="sparksCanvas"></canvas>
+  <div class="hero-content">
+    <div class="hero-gm">GM</div>
+    <div class="hero-name">GRILLINOX</div>
+    <div class="hero-sub">Asadores y Muebles de Acero Inoxidable</div>
+    <div class="hero-line"></div>
+    <div class="cta-group">
+      <a href="#productos" class="btn btn-fire">🔥 Ver Asadores</a>
+      <a href="https://wa.me/528130753818?text=Hola!%20Quiero%20información%20sobre%20sus%20asadores" target="_blank" class="btn btn-steel">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Cotizar Ahora
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section id="productos">
+  <div class="section-header reveal">
+    <div class="section-tag">Catálogo</div>
+    <div class="section-title">Nuestros Asadores</div>
+    <div class="section-line"></div>
+  </div>
+  <div class="products-grid" id="productsGrid"></div>
+</section>
+
+<!-- FEATURES -->
+<section id="caracteristicas">
+  <div class="section-header reveal">
+    <div class="section-tag">¿Por qué elegirnos?</div>
+    <div class="section-title">Calidad Garantizada</div>
+    <div class="section-line"></div>
+  </div>
+  <div class="features-grid">
+    <div class="feature-card reveal">
+      <div class="feature-icon">⚙️</div>
+      <div class="feature-title">Acero 304 Grado Alimenticio</div>
+      <div class="feature-text">Todo nuestro acero inoxidable es de grado alimenticio 304, resistente a la corrosión y de larga durabilidad.</div>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-icon">🔧</div>
+      <div class="feature-title">Soldadura de Precisión</div>
+      <div class="feature-text">Cada unidad es soldada artesanalmente con acabados pulidos que garantizan hermeticidad y estética superior.</div>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-icon">📐</div>
+      <div class="feature-title">Fabricación a Medida</div>
+      <div class="feature-text">Diseñamos y fabricamos asadores con dimensiones personalizadas para adaptarse a tu espacio y necesidades.</div>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-icon">🚚</div>
+      <div class="feature-title">Entrega e Instalación</div>
+      <div class="feature-text">Realizamos entrega e instalación en tu domicilio. Pregunta por nuestras zonas de cobertura.</div>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-icon">🛡️</div>
+      <div class="feature-title">Garantía de Fábrica</div>
+      <div class="feature-text">Cada producto cuenta con garantía directa de fábrica. Tu satisfacción es nuestra prioridad.</div>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-icon">💬</div>
+      <div class="feature-title">Asesoría Personalizada</div>
+      <div class="feature-text">Te asesoramos para elegir el modelo perfecto según tu espacio, uso y presupuesto. Contáctanos sin compromiso.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contacto">
+  <div class="contact-wrapper">
+    <div class="section-header reveal">
+      <div class="section-tag">Contáctanos</div>
+      <div class="section-title">Estamos para Servirte</div>
+      <div class="section-line"></div>
+    </div>
+    <p class="contact-desc reveal">Comunícate con nosotros por WhatsApp o llamada para cotizaciones, pedidos personalizados y cualquier consulta. ¡Respondemos rápido!</p>
+    <div class="maps-container reveal">
+      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3601.2345680765234!2d-100.3138!3d25.68611!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8662bcc4c3b8e8e1%3A0x1234567890!2sAv.%20Ruiz%20Cortines%20Oriente%205627%2C%20Valle%20Verde%2C%2064117%20Monterrey%2C%20N.L.!5e0!3m2!1ses!2smx!4v1234567890" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+    <div class="contact-cards reveal">
+      <a href="https://wa.me/528130753818?text=Hola!%20Me%20interesa%20uno%20de%20sus%20asadores" target="_blank" class="contact-card wa">
+        <div class="contact-icon">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        </div>
+        <div class="contact-label">WhatsApp</div>
+        <div class="contact-number">+52 81 3075 3818</div>
+        <div class="contact-hint">Escríbenos ahora mismo</div>
+      </a>
+      <a href="tel:+528130753818" class="contact-card call">
+        <div class="contact-icon">📞</div>
+        <div class="contact-label">Llamada</div>
+        <div class="contact-number">+52 81 3075 3818</div>
+        <div class="contact-hint">Lun–Sáb 9:00 a 19:00</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand"><span>G</span>M GRILLINOX</div>
+  <div class="footer-sub">Asadores y Muebles de Acero Inoxidable</div>
+  <div class="footer-divider"></div>
+  <div class="footer-copy">© 2025 Grillinox · Todos los derechos reservados</div>
+</footer>
+
+<!-- FLOATING WA -->
+<a href="https://wa.me/528130753818?text=Hola!%20Me%20interesa%20un%20asador" target="_blank" class="floating-wa" title="WhatsApp">
+  <svg width="30" height="30" viewBox="0 0 24 24" fill="#fff"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal" id="modal">
+    <div class="modal-close" id="modalClose">✕</div>
+    <div class="modal-img-zone" id="modalImg"></div>
+    <div class="modal-body">
+      <div class="modal-model" id="modalModel"></div>
+      <div class="modal-name" id="modalName"></div>
+      <div class="modal-desc" id="modalDesc"></div>
+      <div class="modal-specs-title">Especificaciones Técnicas</div>
+      <div class="modal-specs-grid" id="modalSpecs"></div>
+      <div class="modal-price-row">
+        <div class="modal-price" id="modalPrice"></div>
+        <div class="modal-actions">
+          <a href="#" id="modalWa" target="_blank" class="btn-order">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Pedir por WhatsApp
+          </a>
+          <a href="tel:+528130753818" class="btn btn-steel" style="padding:0.65rem 1.2rem;font-size:0.9rem;">📞 Llamar</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ---- DATA ----
+const PHONE = '528130753818'; // <-- Cambia aquí tu número
+
+const products = [
+  {
+    id: 1,
+    name: 'Asador de ataúd con tapa humadora',
+    images: ['img/asador ataud.jpeg', 'img/asador ataud 2.jpeg'],
+    model: 'A-INOX-100',
+    emoji: '🔥',
+    featured: false,
+    desc: 'Asador-ataúd con tapa ahumadora en acero inoxidable tipo 304 grado alimenticio con sistema de elevación doble carbonera calibre 1/8, con ventilas para controlar mejor el calor. Parrilla con varillas giratorias para mejor limpieza',
+    price: '$38,000',
+    specs: [
+      { label: 'Acero', val: 'Inox 304' },
+      { label: 'Dimensiones', val: '90×60×90 cm' },
+      { label: 'Parrillas', val: '2 niveles' },
+      { label: 'Tipo', val: 'Carbón / Leña' },
+    ]
+  },
+  {
+    id: 2,
+    name: 'Asador con Tapa Ahumadora (Empotrable)',
+    images: ['img/ASADOR CON TAPA AHUMADORA1.jpeg', 'img/ASADOR AHUMADOR 2.jpeg'],
+    model: 'A-INOX-200',
+    emoji: '⚡',
+    featured: true,
+    desc: 'Asador ahumador empotrable de acero inoxidable 304 grado alimenticio, con sistema de elevacion, parrilla giratoria, carbonera de acero al carbon, termometro en tapa superior y 2 ventilas para controlar el flujo de aire. Perfecto para reuniones en casa para compartir con familia y amigos.',
+    price: '$17,500',
+    specs: [
+      { label: 'Acero', val: 'Inox 304' },
+      { label: 'Dimensiones', val: '90×60×90 cm' },
+      { label: 'Parrillas', val: '1 nivel' },
+      { label: 'Tipo', val: 'Carbón / Leña' },
+    ]
+  },
+  {
+    id: 3,
+    name: 'Asador con Tapa Ahumadora y parrilla tipo Argentina',
+    images: ['img/asador argentino.jpeg'],
+    model: 'A-INOX-300',
+    emoji: '🏆',
+    featured: false,
+    desc: 'Asador ahumador con parrilla tipo Argentina empotrable de acero inoxidable 304 grado alimenticio, con sistema de elevacion, parrilla giratoria, carbonera de acero al carbon, termometro en tapa superior y 2 ventilas para controlar el flujo de aire. Perfecto para reuniones en casa para compartir con familia y amigos.',
+    price: '$18,500',
+    specs: [
+      { label: 'Acero', val: 'Inox 304' },
+      { label: 'Dimensiones', val: '90×60×90 cm' },
+      { label: 'Parrillas', val: '1 nivel' },
+      { label: 'Tipo', val: 'Carbón / Leña' },
+    ]
+  },
+  {
+    id: 4,
+    name: 'Asador Ahumador/Gratinador',
+    images: ['img/ASADOR GRATINADOR.jpeg'],
+    model: 'A-INOX-400',
+    emoji: '🏗️',
+    featured: false,
+    desc: 'Asador ahumador/gratinador diseñado para integrarse en islas de cocina exteriores, palapas, y negocios de cocina.',
+    price: '$20,500',
+    specs: [
+      { label: 'Acero', val: 'Inox 304' },
+      { label: 'Dimensiones', val: '90×60×90 cm' },
+      { label: 'Parrillas', val: '2 niveles' },
+      { label: 'Tipo', val: 'Carbón/Leña' },
+    ]
+  },
+  {
+    id: 5,
+    name: 'Asador con sistema de elevación',
+    images: ['img/ASADOR DE ELEVACION 1.jpeg'],
+    model: 'A-INOX-500',
+    emoji: '🎒',
+    featured: false,
+    desc: 'Compacto y resistente, listo para empotrar o usar con base de acero inoxidable.',
+    price: '$12,000',
+    specs: [
+      { label: 'Acero', val: 'Inox 304' },
+      { label: 'Dimensiones', val: '90×60×90 cm' },
+      { label: 'Parrillas', val: '1 nivel' },
+      { label: 'Tipo', val: 'Carbón/Leña' },
+    ]
+  },
+  {
+    id: 6,
+    name: 'ASADOR HIBRIDO',
+    images: ['img/HIBRIDO1.jpeg', 'img/HIBRIDO2.jpeg'],
+    model: 'A-INOX-600',
+    emoji: '🍳',
+    featured: true,
+    desc: 'Este equipo combina la potencia del gas, con el tradicional asado en carbón o leña.',
+    price: '$21,000',
+    specs: [
+      { label: 'Acero', val: 'Inox 304' },
+      { label: 'Dimensiones', val: '90×60×67.5 cm' },
+      { label: 'Módulos', val: '4 secciones' },
+      { label: 'Incluye', val: 'carbonera + mechas de gas' },
+      { label: 'Tipo', val: 'Carbón/Gas/Leña' },
+      { label: 'Parrillas', val: '1 nivel' },
+    ]
+  },
+];
+
+// ---- RENDER PRODUCTS ----
+const grid = document.getElementById('productsGrid');
+
+products.forEach((p, i) => {
+  const card = document.createElement('div');
+  card.className = 'product-card reveal';
+  card.style.transitionDelay = `${i * 0.08}s`;
+  card.innerHTML = `
+    <div class="product-emoji-display">
+      ${p.images ? `<img src="${p.images[0]}" alt="${p.name}" style="width:100%;height:100%;object-fit:contain;border-radius:8px;position:relative;z-index:1;padding:10px;background:rgba(0,0,0,0.2);">` : (p.image ? `<img src="${p.image}" alt="${p.name}" style="width:100%;height:100%;object-fit:contain;border-radius:8px;position:relative;z-index:1;padding:10px;background:rgba(0,0,0,0.2);">` : `<span style="position:relative;z-index:1;">${p.emoji}</span>`)}
+      ${p.featured ? '<div class="badge-featured">⭐ Destacado</div>' : ''}
+    </div>
+    <div class="product-body">
+      <div class="product-model">${p.model}</div>
+      <div class="product-name">${p.name}</div>
+      <div class="product-desc">${p.desc}</div>
+      <div class="specs-grid">
+        ${p.specs.slice(0,4).map(s=>`
+          <div class="spec-item">
+            <div class="spec-label">${s.label}</div>
+            <div class="spec-val">${s.val}</div>
+          </div>
+        `).join('')}
+      </div>
+      <div class="product-footer">
+        <div class="price">${p.price} <small>MXN + IVA</small></div>
+        <a href="https://wa.me/${PHONE}?text=Hola!%20Me%20interesa%20el%20${encodeURIComponent(p.name+' '+p.model)}%20%28${encodeURIComponent(p.price)}%29" 
+           target="_blank" class="btn-order" onclick="event.stopPropagation()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Pedir
+        </a>
+      </div>
+    </div>
+  `;
+  card.addEventListener('click', () => openModal(p));
+  grid.appendChild(card);
+});
+
+// ---- MODAL ----
+let currentImageIndex = 0;
+
+function openModal(p) {
+  currentImageIndex = 0;
+  const images = p.images || (p.image ? [p.image] : []);
+  
+  if (images.length > 0) {
+    document.getElementById('modalImg').innerHTML = `
+      <img id="modalMainImg" src="${images[0]}" alt="${p.name}" style="width:100%;height:100%;object-fit:contain;border-radius:8px;padding:10px;">
+      ${images.length > 1 ? `
+        <div class="modal-img-nav">
+          ${images.map((img, i) => `<div class="modal-img-thumb ${i === 0 ? 'active' : ''}" onclick="goToImage(${i})"><img src="${img}" alt="Miniatura ${i + 1}"></div>`).join('')}
+        </div>
+      ` : ''}
+    `;
+    window.currentModalImages = images;
+  } else {
+    document.getElementById('modalImg').innerHTML = `<span style="position:relative;z-index:1;">${p.emoji}</span>`;
+  }
+  document.getElementById('modalModel').textContent = p.model;
+  document.getElementById('modalName').textContent = p.name;
+  document.getElementById('modalDesc').textContent = p.desc;
+  document.getElementById('modalPrice').textContent = p.price + ' MXN';
+  document.getElementById('modalSpecs').innerHTML = p.specs.map(s => `
+    <div class="modal-spec">
+      <div class="modal-spec-label">${s.label}</div>
+      <div class="modal-spec-val">${s.val}</div>
+    </div>
+  `).join('');
+  document.getElementById('modalWa').href = `https://wa.me/${PHONE}?text=Hola!%20Me%20interesa%20el%20${encodeURIComponent(p.name+' '+p.model)}%20%28${encodeURIComponent(p.price)}%29`;
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+document.getElementById('modalClose').addEventListener('click', closeModal);
+document.getElementById('modalOverlay').addEventListener('click', (e) => { if(e.target === document.getElementById('modalOverlay')) closeModal(); });
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function updateModalImage() {
+  const img = document.getElementById('modalMainImg');
+  if (img) {
+    img.src = window.currentModalImages[currentImageIndex];
+  }
+  const thumbs = document.querySelectorAll('.modal-img-thumb');
+  thumbs.forEach((thumb, i) => {
+    thumb.classList.toggle('active', i === currentImageIndex);
+  });
+}
+
+function changeImage(direction) {
+  const images = window.currentModalImages;
+  currentImageIndex = (currentImageIndex + direction + images.length) % images.length;
+  updateModalImage();
+}
+
+function goToImage(index) {
+  currentImageIndex = index;
+  updateModalImage();
+}
+
+// ---- CURSOR ----
+const cursor = document.getElementById('cursor');
+const dot = document.getElementById('cursorDot');
+document.addEventListener('mousemove', e => {
+  cursor.style.left = e.clientX + 'px';
+  cursor.style.top = e.clientY + 'px';
+  dot.style.left = e.clientX + 'px';
+  dot.style.top = e.clientY + 'px';
+});
+document.querySelectorAll('a,button,.product-card').forEach(el => {
+  el.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
+  el.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
+});
+
+// ---- SPARKS CANVAS ----
+const canvas = document.getElementById('sparksCanvas');
+const ctx = canvas.getContext('2d');
+let sparks = [];
+function resizeCanvas() {
+  const heroSection = document.getElementById('inicio');
+  canvas.width = heroSection.offsetWidth;
+  canvas.height = heroSection.offsetHeight;
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+function createSpark() {
+  const centerX = canvas.width / 2;
+  const spreadWidth = canvas.width * 0.4;
+  const x = centerX + (Math.random() - 0.5) * spreadWidth;
+  return {
+    x, y: canvas.height * 0.4 + Math.random() * 80,
+    vx: (Math.random() - 0.5) * 3,
+    vy: -Math.random() * 3.5 - 1.5,
+    life: 1,
+    decay: 0.008 + Math.random() * 0.015,
+    size: Math.random() * 2.5 + 0.5,
+    color: Math.random() > 0.5 ? '#ff6a00' : '#00cfff'
+  };
+}
+
+function animateSparks() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  if (Math.random() < 0.4) sparks.push(createSpark());
+  sparks = sparks.filter(s => s.life > 0);
+  sparks.forEach(s => {
+    s.x += s.vx;
+    s.y += s.vy;
+    s.vy -= 0.02;
+    s.life -= s.decay;
+    ctx.globalAlpha = s.life;
+    ctx.fillStyle = s.color;
+    ctx.beginPath();
+    ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
+    ctx.fill();
+  });
+  ctx.globalAlpha = 1;
+  requestAnimationFrame(animateSparks);
+}
+animateSparks();
+
+// ---- SCROLL REVEAL ----
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+reveals.forEach(el => observer.observe(el));
+
+// ---- SCROLL TOP ----
+const scrollTopBtn = document.getElementById('scrollTop');
+window.addEventListener('scroll', () => {
+  scrollTopBtn.classList.toggle('visible', window.scrollY > 400);
+});
+
+// Hero section is actually the first section now
+document.querySelector('#inicio') && (document.querySelector('#inicio').id = 'inicio');
+</script>
+</body>
+</html>
