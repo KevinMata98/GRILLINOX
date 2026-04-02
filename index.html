@@ -6,6 +6,14 @@
 <title>GRILLINOX – Asadores de Acero Inoxidable</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@400;500;600;700&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
 <style>
+  /* =============================================
+     VARIABLES GLOBALES DE COLOR Y DISEÑO
+     Modifica aquí los colores principales del sitio
+     - --fire / --ember : tonos naranja/fuego
+     - --steel / --steel-dark / --steel-shine : tonos acero
+     - --glow-blue : acento azul cyan
+     - --black / --dark / --panel : fondos oscuros
+  ============================================= */
   :root {
     --steel: #c8d6e0;
     --steel-dark: #7a8f9e;
@@ -30,7 +38,11 @@
     overflow-x: hidden;
   }
 
-  /* HERO */
+  /* =============================================
+     SECCIÓN HERO (#inicio)
+     Pantalla principal con animación de chispas,
+     logo GM y botones de acción (CTA)
+  ============================================= */
   #inicio {
     min-height: 100vh;
     display: flex;
@@ -145,7 +157,11 @@
   }
   .btn-steel:hover { border-color: var(--glow-blue); color: var(--glow-blue); box-shadow: 0 0 20px rgba(0,207,255,0.3); transform: translateY(-2px); }
 
-  /* NAV */
+  /* =============================================
+     BARRA DE NAVEGACIÓN FIJA
+     Siempre visible en la parte superior.
+     En móvil (<600px) los links se ocultan.
+  ============================================= */
   nav {
     position: fixed; top: 0; left: 0; right: 0; z-index: 100;
     display: flex; align-items: center; justify-content: space-between;
@@ -186,7 +202,11 @@
   .btn-call { background: var(--panel); color: var(--steel); border: 1px solid var(--border); }
   .btn-call:hover { border-color: var(--glow-blue); color: var(--glow-blue); transform: translateY(-1px); }
 
-  /* SECTIONS */
+  /* =============================================
+     ESTILOS COMUNES DE SECCIONES
+     Cada sección usa padding, section-header,
+     section-tag, section-title y section-line
+  ============================================= */
   section { padding: 6rem 2rem; }
   .section-header {
     text-align: center;
@@ -211,7 +231,11 @@
     margin: 1.2rem auto 0;
   }
 
-  /* PRODUCTS */
+  /* =============================================
+     SECCIÓN DE PRODUCTOS (#productos)
+     Grid de tarjetas generado dinámicamente
+     por JavaScript con el array 'products'
+  ============================================= */
   #productos {
     background: var(--dark);
     position: relative;
@@ -343,7 +367,12 @@
   }
   .btn-order:hover { transform: scale(1.05); box-shadow: 0 0 25px rgba(37,211,102,0.5); }
 
-  /* MODAL */
+  /* =============================================
+     MODAL DE DETALLE DE PRODUCTO
+     Se abre al hacer click en una tarjeta.
+     Incluye galería de imágenes con miniaturas,
+     especificaciones técnicas y botón WhatsApp.
+  ============================================= */
   .modal-overlay {
     display: none;
     position: fixed; inset: 0; z-index: 500;
@@ -417,14 +446,9 @@
   .modal-img-thumb img {
     width: 100%; height: 100%; object-fit: cover; display: block;
   }
-    position: absolute; top: 50%; transform: translateY(-50%);
-    width: 40px; height: 40px;
-    background: rgba(0,0,0,0.5); border: 1px solid var(--border);
-    color: var(--steel); font-size: 1.5rem;
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer; transition: all 0.2s;
-    z-index: 10;
-  }
+
+  /* Flechas de navegación dentro del modal */
+  .modal-img-arrow { position: absolute; top: 50%; transform: translateY(-50%); width: 40px; height: 40px; background: rgba(0,0,0,0.5); border: 1px solid var(--border); color: var(--steel); font-size: 1.5rem; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; z-index: 10; }
   .modal-img-arrow:hover { background: rgba(0,0,0,0.8); color: var(--fire); }
   .modal-img-arrow.prev { left: 10px; }
   .modal-img-arrow.next { right: 10px; }
@@ -447,7 +471,11 @@
   .modal-price { font-family: 'Orbitron', sans-serif; font-size: 2rem; color: var(--fire); }
   .modal-actions { display: flex; gap: 0.8rem; flex-wrap: wrap; }
 
-  /* FEATURES */
+  /* =============================================
+     SECCIÓN DE CARACTERÍSTICAS (#caracteristicas)
+     Grid de tarjetas con íconos que describen
+     las ventajas del producto/empresa
+  ============================================= */
   #caracteristicas {
     background: var(--black);
   }
@@ -476,7 +504,12 @@
   .feature-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; letter-spacing: 0.05em; color: var(--steel-shine); margin-bottom: 0.5rem; }
   .feature-text { font-size: 0.9rem; line-height: 1.5; color: var(--steel-dark); }
 
-  /* CONTACT */
+  /* =============================================
+     SECCIÓN DE CONTACTO (#contacto)
+     Incluye tarjetas de WhatsApp/Llamada
+     y mapa embebido de Google Maps.
+     Número de contacto: +52 81 3075 3818
+  ============================================= */
   #contacto {
     background: var(--dark);
   }
@@ -507,7 +540,7 @@
   .contact-number { font-size: 1.1rem; font-weight: 700; color: var(--steel-shine); }
   .contact-hint { font-size: 0.8rem; color: var(--steel-dark); }
 
-  /* GOOGLE MAPS */
+  /* Mapa embebido de Google Maps - Monterrey N.L. */
   .maps-container {
     width: 100%; max-width: 800px; margin: 2rem auto 3rem;
     border: 1px solid var(--border);
@@ -530,7 +563,11 @@
   .footer-divider { width: 60px; height: 1px; background: var(--border); margin: 1.5rem auto; }
   .footer-copy { font-size: 0.8rem; color: var(--steel-dark); }
 
-  /* FLOATING WA */
+  /* =============================================
+     BOTÓN FLOTANTE DE WHATSAPP
+     Siempre visible, bottom-right.
+     Animación de pulso para llamar la atención.
+  ============================================= */
   .floating-wa {
     position: fixed; bottom: 2rem; right: 2rem; z-index: 200;
     width: 60px; height: 60px;
@@ -549,7 +586,12 @@
     50% { box-shadow: 0 4px 40px rgba(37,211,102,0.9); }
   }
 
-  /* ANIMATIONS */
+  /* =============================================
+     ANIMACIONES
+     - fadeSlideUp: entrada suave desde abajo
+     - reveal / .visible: activado por IntersectionObserver
+     - pulse-wa: pulso del botón WhatsApp flotante
+  ============================================= */
   @keyframes fadeSlideUp {
     from { opacity: 0; transform: translateY(30px); }
     to   { opacity: 1; transform: none; }
@@ -561,7 +603,7 @@
   }
   .reveal.visible { opacity: 1; transform: none; }
 
-  /* SCROLL TOP */
+  /* Botón para regresar al inicio de la página */
   .scroll-top {
     position: fixed; bottom: 2rem; left: 2rem; z-index: 200;
     width: 44px; height: 44px;
@@ -574,6 +616,10 @@
   .scroll-top.visible { opacity: 1; pointer-events: auto; }
   .scroll-top:hover { border-color: var(--fire); color: var(--fire); }
 
+  /* =============================================
+     RESPONSIVE - MÓVIL (<600px)
+     Ajustes para pantallas pequeñas
+  ============================================= */
   @media (max-width: 600px) {
     nav { padding: 0.8rem 1rem; }
     .nav-links { display: none; }
@@ -749,8 +795,12 @@
 </div>
 
 <script>
-// ---- DATA ----
-const PHONE = '528130753818'; // <-- Cambia aquí tu número
+// =============================================
+// CONFIGURACIÓN PRINCIPAL
+// Cambia PHONE para actualizar el número de
+// WhatsApp en TODOS los botones del sitio
+// =============================================
+const PHONE = '528130753818'; // <-- Número WhatsApp (sin + ni espacios)
 
 const products = [
   {
@@ -853,7 +903,13 @@ const products = [
   },
 ];
 
-// ---- RENDER PRODUCTS ----
+// =============================================
+// RENDERIZADO DE TARJETAS DE PRODUCTOS
+// Genera dinámicamente el HTML de cada
+// producto usando el array 'products' anterior.
+// Si el producto tiene 'images[]', muestra foto;
+// si no, muestra el emoji de respaldo.
+// =============================================
 const grid = document.getElementById('productsGrid');
 
 products.forEach((p, i) => {
@@ -891,7 +947,14 @@ products.forEach((p, i) => {
   grid.appendChild(card);
 });
 
-// ---- MODAL ----
+// =============================================
+// MODAL DE DETALLE DE PRODUCTO
+// openModal(p)      → abre el modal con datos del producto
+// closeModal()      → cierra el modal
+// goToImage(index)  → navega a miniatura específica
+// changeImage(dir)  → navega con flechas (+1 / -1)
+// updateModalImage()→ actualiza imagen principal y miniaturas
+// =============================================
 let currentImageIndex = 0;
 
 function openModal(p) {
@@ -955,7 +1018,13 @@ function goToImage(index) {
 }
 
 
-// ---- SPARKS CANVAS ----
+// =============================================
+// ANIMACIÓN DE CHISPAS (Canvas)
+// Partículas de fuego naranja (#ff6a00) y
+// cyan (#00cfff) que flotan en el hero.
+// createSpark()   → genera una partícula nueva
+// animateSparks() → bucle de animación principal
+// =============================================
 const canvas = document.getElementById('sparksCanvas');
 const ctx = canvas.getContext('2d');
 let sparks = [];
@@ -1002,21 +1071,28 @@ function animateSparks() {
 }
 animateSparks();
 
-// ---- SCROLL REVEAL ----
+// =============================================
+// SCROLL REVEAL
+// Elementos con clase .reveal aparecen con
+// animación cuando entran al viewport.
+// Usa IntersectionObserver para eficiencia.
+// =============================================
 const reveals = document.querySelectorAll('.reveal');
 const observer = new IntersectionObserver(entries => {
   entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
 }, { threshold: 0.1 });
 reveals.forEach(el => observer.observe(el));
 
-// ---- SCROLL TOP ----
+// =============================================
+// BOTÓN SCROLL TOP
+// Aparece cuando el usuario ha bajado más de
+// 400px. Al hacer click, regresa al inicio.
+// =============================================
 const scrollTopBtn = document.getElementById('scrollTop');
 window.addEventListener('scroll', () => {
   scrollTopBtn.classList.toggle('visible', window.scrollY > 400);
 });
 
-// Hero section is actually the first section now
-document.querySelector('#inicio') && (document.querySelector('#inicio').id = 'inicio');
 </script>
 </body>
 </html>
