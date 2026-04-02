@@ -28,29 +28,6 @@
     color: var(--steel);
     font-family: 'Rajdhani', sans-serif;
     overflow-x: hidden;
-    cursor: none;
-  }
-
-  /* CUSTOM CURSOR */
-  .cursor {
-    width: 20px; height: 20px;
-    border: 2px solid var(--fire);
-    border-radius: 50%;
-    position: fixed;
-    pointer-events: none;
-    z-index: 9999;
-    transition: transform 0.1s, background 0.2s;
-    transform: translate(-50%, -50%);
-  }
-  .cursor.hovered { background: rgba(255,106,0,0.3); transform: translate(-50%, -50%) scale(1.8); }
-  .cursor-dot {
-    width: 5px; height: 5px;
-    background: var(--glow-blue);
-    border-radius: 50%;
-    position: fixed;
-    pointer-events: none;
-    z-index: 9999;
-    transform: translate(-50%, -50%);
   }
 
   /* HERO */
@@ -610,8 +587,7 @@
 </head>
 <body>
 
-<div class="cursor" id="cursor"></div>
-<div class="cursor-dot" id="cursorDot"></div>
+
 
 <!-- NAV -->
 <nav>
@@ -978,19 +954,6 @@ function goToImage(index) {
   updateModalImage();
 }
 
-// ---- CURSOR ----
-const cursor = document.getElementById('cursor');
-const dot = document.getElementById('cursorDot');
-document.addEventListener('mousemove', e => {
-  cursor.style.left = e.clientX + 'px';
-  cursor.style.top = e.clientY + 'px';
-  dot.style.left = e.clientX + 'px';
-  dot.style.top = e.clientY + 'px';
-});
-document.querySelectorAll('a,button,.product-card').forEach(el => {
-  el.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
-  el.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
-});
 
 // ---- SPARKS CANVAS ----
 const canvas = document.getElementById('sparksCanvas');
