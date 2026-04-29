@@ -796,6 +796,7 @@
     .modal-actions .btn, .modal-actions .btn-order { flex: 1; justify-content: center; }
   }
 </style>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/index.min.js"></script>
 </head>
 <body>
 
@@ -998,7 +999,7 @@
     <div class="section-line"></div>
   </div>
   <div class="form-container reveal">
-    <form id="cotiza-form" action="https://formspree.io/f/matafelipe1998@gmail.com" method="POST">
+    <form id="cotiza-form" action="#" method="POST">
       <div class="form-group">
         <label class="form-label">Nombre *</label>
         <input type="text" class="form-input" name="nombre" required placeholder="Tu nombre completo">
@@ -1398,22 +1399,49 @@ window.addEventListener('scroll', () => {
 });
 
 // FORMULARIO DE COTIZACIÓN
-// Manejo de envío y mensaje de éxito
+// Integración con EmailJS para envío de correos HTML
 // =============================================
+emailjs.init('JMj7stqNfH2h2MnJC');
+
 const cotizaForm = document.getElementById('cotiza-form');
 if (cotizaForm) {
   cotizaForm.addEventListener('submit', function(e) {
-    // Permite que Formspree maneje el envío
+    e.preventDefault();
     const submitBtn = cotizaForm.querySelector('.form-submit');
+    const originalText = submitBtn.textContent;
     submitBtn.textContent = 'Enviando...';
     submitBtn.disabled = true;
-  });
-}
 
-// Detectar respuesta de Formspree (redirige después de envío exitoso)
-if (window.location.hash === '#success' || new URLSearchParams(window.location.search).get('success') === 'true') {
-  alert('¡Gracias por tu cotización! Nos pondremos en contacto pronto.');
-  window.history.replaceState({}, document.title, window.location.pathname);
+    const formData = new FormData(cotizaForm);
+    const templateParams = {
+      to_email: 'matafelipe1998@gmail.com',
+      nombre: formData.get('nombre'),
+      correo: formData.get('correo'),
+      telefono: formData.get('telefono'),
+      medidas: formData.get('medidas'),
+      mensaje: formData.get('mensaje')
+    };
+
+    emailjs.send('service_52viy9a', 'template_grillinox', templateParams)
+      .then(response => {
+        submitBtn.textContent = 'Enviado!';
+        alert('¡Gracias por tu cotización! Nos pondremos en contacto en las próximas 24 horas.');
+        cotizaForm.reset();
+        setTimeout(() => {
+          submitBtn.textContent = originalText;
+          submitBtn.disabled = false;
+        }, 3000);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        submitBtn.textContent = 'Error al enviar';
+        alert('Hubo un error al enviar. Por favor, intenta de nuevo.');
+        setTimeout(() => {
+          submitBtn.textContent = originalText;
+          submitBtn.disabled = false;
+        }, 3000);
+      });
+  });
 }
 
 </script>
