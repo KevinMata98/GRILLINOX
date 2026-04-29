@@ -504,6 +504,173 @@
   .feature-text { font-size: 0.9rem; line-height: 1.5; color: var(--steel-dark); }
 
   /* =============================================
+     SECCIÓN DE PROCESO (#proceso)
+     Timeline visual de pasos de fabricación
+  ============================================= */
+  #proceso {
+    background: var(--black);
+  }
+  .process-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem; max-width: 1100px; margin: 0 auto;
+  }
+  .process-step {
+    position: relative; padding: 2rem 1.5rem;
+    border: 1px solid var(--border);
+    background: rgba(255,255,255,0.02);
+    text-align: center;
+    transition: all 0.3s;
+  }
+  .process-step::before {
+    content: '';
+    position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, var(--fire), var(--glow-blue));
+    transform: scaleX(0); transition: transform 0.3s;
+  }
+  .process-step:hover { border-color: rgba(0,207,255,0.2); transform: translateY(-4px); }
+  .process-step:hover::before { transform: scaleX(1); }
+  .process-num {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2.5rem; font-weight: 900; color: var(--fire); margin-bottom: 0.5rem;
+  }
+  .process-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.2rem; letter-spacing: 0.05em; color: var(--steel-shine); margin-bottom: 0.8rem;
+  }
+  .process-desc { font-size: 0.9rem; line-height: 1.5; color: var(--steel-dark); }
+
+  /* =============================================
+     SECCIÓN DE TESTIMONIOS (#testimonios)
+     Tarjetas de proyectos y opiniones
+  ============================================= */
+  #testimonios {
+    background: var(--dark);
+  }
+  .testimonios-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem; max-width: 1200px; margin: 0 auto;
+  }
+  .testimonial-card {
+    border: 1px solid var(--border);
+    background: var(--panel);
+    overflow: hidden;
+    transition: all 0.3s;
+  }
+  .testimonial-card:hover { transform: translateY(-6px); box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
+  .testimonial-img {
+    width: 100%; height: 200px;
+    background: linear-gradient(135deg, #1a2a35, #0f1820);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 3rem; overflow: hidden;
+  }
+  .testimonial-img img {
+    width: 100%; height: 100%; object-fit: cover;
+  }
+  .testimonial-body { padding: 1.5rem; }
+  .testimonial-text {
+    font-size: 0.95rem; line-height: 1.6; color: var(--steel-dark); margin-bottom: 1rem;
+    font-style: italic;
+  }
+  .testimonial-author {
+    font-weight: 700; color: var(--steel-shine);
+    font-size: 0.95rem;
+  }
+  .testimonial-role {
+    font-size: 0.8rem; color: var(--fire); text-transform: uppercase; letter-spacing: 0.1em;
+  }
+
+  /* =============================================
+     SECCIÓN DE ESPECIFICACIONES (#specs)
+     Beneficios del Acero Inoxidable 304
+  ============================================= */
+  #specs {
+    background: var(--black);
+  }
+  .specs-container {
+    max-width: 900px; margin: 0 auto;
+    padding: 2rem; border: 1px solid rgba(255,106,0,0.3);
+    background: rgba(255,106,0,0.08);
+    border-radius: 8px;
+  }
+  .specs-intro {
+    font-size: 1.1rem; line-height: 1.8; color: var(--steel);
+    margin-bottom: 2rem;
+  }
+  .specs-list {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 1.2rem;
+  }
+  .spec-point {
+    padding: 1rem; border-left: 3px solid var(--fire);
+    background: rgba(255,106,0,0.05);
+  }
+  .spec-point-title {
+    font-weight: 700; color: var(--fire); margin-bottom: 0.3rem;
+  }
+  .spec-point-desc {
+    font-size: 0.9rem; color: var(--steel-dark); line-height: 1.5;
+  }
+
+  /* =============================================
+     SECCIÓN DE FORMULARIO (#formulario)
+     Contacto con estructura de datos
+  ============================================= */
+  #formulario {
+    background: var(--dark);
+  }
+  .form-container {
+    max-width: 600px; margin: 0 auto;
+  }
+  .form-group {
+    margin-bottom: 1.5rem;
+  }
+  .form-label {
+    display: block; font-weight: 700; color: var(--steel-shine);
+    margin-bottom: 0.5rem; font-size: 0.95rem;
+  }
+  .form-input, .form-textarea {
+    width: 100%; padding: 0.8rem 1rem;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    color: var(--steel);
+    font-family: 'Open Sans', sans-serif;
+    font-size: 0.95rem;
+    transition: all 0.2s;
+  }
+  .form-input:focus, .form-textarea:focus {
+    outline: none; border-color: var(--fire);
+    box-shadow: 0 0 15px rgba(255,106,0,0.3);
+  }
+  .form-textarea {
+    resize: vertical; min-height: 120px;
+  }
+  .form-submit {
+    display: inline-flex; align-items: center; gap: 0.6rem;
+    width: 100%; justify-content: center;
+    padding: 1rem 2rem;
+    background: linear-gradient(135deg, var(--fire), var(--ember));
+    color: #fff;
+    border: none;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  .form-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 30px rgba(255,106,0,0.5);
+  }
+  .form-submit:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+
+  /* =============================================
      SECCIÓN DE CONTACTO (#contacto)
      Incluye tarjetas de WhatsApp/Llamada
      y mapa embebido de Google Maps.
@@ -640,6 +807,9 @@
   <div class="nav-links">
     <a href="#productos">Productos</a>
     <a href="#caracteristicas">Características</a>
+    <a href="#proceso">Proceso</a>
+    <a href="#testimonios">Testimonios</a>
+    <a href="#specs">Especificaciones</a>
     <a href="#contacto">Contacto</a>
   </div>
   <div class="nav-contact">
@@ -719,6 +889,141 @@
       <div class="feature-title">Asesoría Personalizada</div>
       <div class="feature-text">Te asesoramos para elegir el modelo perfecto según tu espacio, uso y presupuesto. Contáctanos sin compromiso.</div>
     </div>
+  </div>
+</section>
+
+<!-- PROCESO DE FABRICACIÓN -->
+<section id="proceso">
+  <div class="section-header reveal">
+    <div class="section-tag">Proceso</div>
+    <div class="section-title">Cómo Fabricamos</div>
+    <div class="section-line"></div>
+  </div>
+  <div class="process-grid">
+    <div class="process-step reveal">
+      <div class="process-num">1</div>
+      <div class="process-title">Diseño Personalizado</div>
+      <div class="process-desc">Escuchamos tus ideas y creamos un diseño único adaptado a tu espacio y necesidades específicas.</div>
+    </div>
+    <div class="process-step reveal">
+      <div class="process-num">2</div>
+      <div class="process-title">Soldadura Artesanal</div>
+      <div class="process-desc">Nuestros maestros sueldan cada pieza con precisión usando técnicas profesionales para máxima resistencia.</div>
+    </div>
+    <div class="process-step reveal">
+      <div class="process-num">3</div>
+      <div class="process-title">Pulido y Acabado</div>
+      <div class="process-desc">Pulimos y refinamos cada detalle para lograr un acabado impecable y una estética superior.</div>
+    </div>
+    <div class="process-step reveal">
+      <div class="process-num">4</div>
+      <div class="process-title">Entrega e Instalación</div>
+      <div class="process-desc">Instalamos tu asador en el lugar perfecto con un servicio de calidad garantizado.</div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIOS Y PROYECTOS -->
+<section id="testimonios">
+  <div class="section-header reveal">
+    <div class="section-tag">Clientes Satisfechos</div>
+    <div class="section-title">Nuestros Proyectos</div>
+    <div class="section-line"></div>
+  </div>
+  <div class="testimonios-grid">
+    <div class="testimonial-card reveal">
+      <div class="testimonial-img">📸</div>
+      <div class="testimonial-body">
+        <div class="testimonial-text">"Excelente calidad y atención. El asador superó nuestras expectativas. Totalmente recomendado."</div>
+        <div class="testimonial-author">Carlos Mendoza</div>
+        <div class="testimonial-role">Propietario Casa de Campo</div>
+      </div>
+    </div>
+    <div class="testimonial-card reveal">
+      <div class="testimonial-img">📸</div>
+      <div class="testimonial-body">
+        <div class="testimonial-text">"La precisión en la soldadura y los acabados son notables. Un verdadero producto artesanal."</div>
+        <div class="testimonial-author">María García</div>
+        <div class="testimonial-role">Restaurante Premium</div>
+      </div>
+    </div>
+    <div class="testimonial-card reveal">
+      <div class="testimonial-img">📸</div>
+      <div class="testimonial-body">
+        <div class="testimonial-text">"Consigieron exactamente lo que pedimos. El servicio de entrega e instalación fue perfecto."</div>
+        <div class="testimonial-author">Roberto López</div>
+        <div class="testimonial-role">Negocio de Catering</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ESPECIFICACIONES TÉCNICAS -->
+<section id="specs">
+  <div class="section-header reveal">
+    <div class="section-tag">Materiales Premium</div>
+    <div class="section-title">¿Por qué Acero Inoxidable 304?</div>
+    <div class="section-line"></div>
+  </div>
+  <div class="specs-container reveal">
+    <div class="specs-intro">
+      Utilizamos únicamente acero inoxidable 304 grado alimenticio. No es un compromiso, es nuestro estándar de calidad. Esta aleación garantiza durabilidad extrema, resistencia a la corrosión marina y temperaturas extremas, manteniendo su belleza durante décadas.
+    </div>
+    <div class="specs-list">
+      <div class="spec-point">
+        <div class="spec-point-title">🛡️ Resistencia a la Corrosión</div>
+        <div class="spec-point-desc">El acero 304 resiste oxidación incluso en ambientes salinos, garantizando longevidad sin daño.</div>
+      </div>
+      <div class="spec-point">
+        <div class="spec-point-title">♨️ Grado Alimenticio</div>
+        <div class="spec-point-desc">Certificado para contacto con alimentos. Seguro, limpio e higiénico en cada uso.</div>
+      </div>
+      <div class="spec-point">
+        <div class="spec-point-title">🔥 Resistencia Térmica</div>
+        <div class="spec-point-desc">Soporta temperaturas extremas (hasta 870°C) sin deformación ni degradación material.</div>
+      </div>
+      <div class="spec-point">
+        <div class="spec-point-title">✨ Acabado Impecable</div>
+        <div class="spec-point-desc">Mantiene su brillo y apariencia premium incluso tras años de uso intenso.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FORMULARIO DE CONTACTO -->
+<section id="formulario">
+  <div class="section-header reveal">
+    <div class="section-tag">Cotiza Tu Asador</div>
+    <div class="section-title">Cuéntanos Tu Proyecto</div>
+    <div class="section-line"></div>
+  </div>
+  <div class="form-container reveal">
+    <form id="cotiza-form" action="https://formspree.io/f/matafelipe1998@gmail.com" method="POST">
+      <div class="form-group">
+        <label class="form-label">Nombre *</label>
+        <input type="text" class="form-input" name="nombre" required placeholder="Tu nombre completo">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Correo *</label>
+        <input type="email" class="form-input" name="correo" required placeholder="correo@ejemplo.com">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Teléfono *</label>
+        <input type="tel" class="form-input" name="telefono" required placeholder="+52 81 XXXX XXXX">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Medidas del Espacio</label>
+        <input type="text" class="form-input" name="medidas" placeholder="Ej: 3m x 2.5m">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Mensaje o Detalles del Proyecto</label>
+        <textarea class="form-textarea" name="mensaje" placeholder="Cuéntanos qué tipo de asador necesitas, características especiales, etc."></textarea>
+      </div>
+      <button type="submit" class="form-submit">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Cotizar Ahora
+      </button>
+    </form>
   </div>
 </section>
 
@@ -1091,6 +1396,25 @@ const scrollTopBtn = document.getElementById('scrollTop');
 window.addEventListener('scroll', () => {
   scrollTopBtn.classList.toggle('visible', window.scrollY > 400);
 });
+
+// FORMULARIO DE COTIZACIÓN
+// Manejo de envío y mensaje de éxito
+// =============================================
+const cotizaForm = document.getElementById('cotiza-form');
+if (cotizaForm) {
+  cotizaForm.addEventListener('submit', function(e) {
+    // Permite que Formspree maneje el envío
+    const submitBtn = cotizaForm.querySelector('.form-submit');
+    submitBtn.textContent = 'Enviando...';
+    submitBtn.disabled = true;
+  });
+}
+
+// Detectar respuesta de Formspree (redirige después de envío exitoso)
+if (window.location.hash === '#success' || new URLSearchParams(window.location.search).get('success') === 'true') {
+  alert('¡Gracias por tu cotización! Nos pondremos en contacto pronto.');
+  window.history.replaceState({}, document.title, window.location.pathname);
+}
 
 </script>
 </body>
