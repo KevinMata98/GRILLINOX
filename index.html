@@ -999,7 +999,7 @@
     <div class="section-line"></div>
   </div>
   <div class="form-container reveal">
-    <form id="cotiza-form" action="#" method="POST">
+    <form id="cotiza-form" action="#" method="GET">
       <div class="form-group">
         <label class="form-label">Nombre *</label>
         <input type="text" class="form-input" name="nombre" required placeholder="Tu nombre completo">
@@ -1401,48 +1401,50 @@ window.addEventListener('scroll', () => {
 // FORMULARIO DE COTIZACIÓN
 // Integración con EmailJS para envío de correos HTML
 // =============================================
-emailjs.init('JMj7stqNfH2h2MnJC');
+document.addEventListener('DOMContentLoaded', function() {
+  emailjs.init('JMj7stqNfH2h2MnJC');
 
-const cotizaForm = document.getElementById('cotiza-form');
-if (cotizaForm) {
-  cotizaForm.addEventListener('submit', function(e) {
-    e.preventDefault();
-    const submitBtn = cotizaForm.querySelector('.form-submit');
-    const originalText = submitBtn.textContent;
-    submitBtn.textContent = 'Enviando...';
-    submitBtn.disabled = true;
+  const cotizaForm = document.getElementById('cotiza-form');
+  if (cotizaForm) {
+    cotizaForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const submitBtn = cotizaForm.querySelector('.form-submit');
+      const originalText = submitBtn.textContent;
+      submitBtn.textContent = 'Enviando...';
+      submitBtn.disabled = true;
 
-    const formData = new FormData(cotizaForm);
-    const templateParams = {
-      to_email: 'matafelipe1998@gmail.com',
-      nombre: formData.get('nombre'),
-      correo: formData.get('correo'),
-      telefono: formData.get('telefono'),
-      medidas: formData.get('medidas'),
-      mensaje: formData.get('mensaje')
-    };
+      const formData = new FormData(cotizaForm);
+      const templateParams = {
+        to_email: 'matafelipe1998@gmail.com',
+        nombre: formData.get('nombre'),
+        correo: formData.get('correo'),
+        telefono: formData.get('telefono'),
+        medidas: formData.get('medidas'),
+        mensaje: formData.get('mensaje')
+      };
 
-    emailjs.send('service_52viy9a', 'template_grillinox', templateParams)
-      .then(response => {
-        submitBtn.textContent = 'Enviado!';
-        alert('¡Gracias por tu cotización! Nos pondremos en contacto en las próximas 24 horas.');
-        cotizaForm.reset();
-        setTimeout(() => {
-          submitBtn.textContent = originalText;
-          submitBtn.disabled = false;
-        }, 3000);
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        submitBtn.textContent = 'Error al enviar';
-        alert('Hubo un error al enviar. Por favor, intenta de nuevo.');
-        setTimeout(() => {
-          submitBtn.textContent = originalText;
-          submitBtn.disabled = false;
-        }, 3000);
-      });
-  });
-}
+      emailjs.send('service_52viy9a', 'template_grillinox', templateParams)
+        .then(response => {
+          submitBtn.textContent = 'Enviado!';
+          alert('¡Gracias por tu cotización! Nos pondremos en contacto en las próximas 24 horas.');
+          cotizaForm.reset();
+          setTimeout(() => {
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
+          }, 3000);
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          submitBtn.textContent = 'Error al enviar';
+          alert('Hubo un error al enviar. Por favor, intenta de nuevo.');
+          setTimeout(() => {
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
+          }, 3000);
+        });
+    });
+  }
+});
 
 </script>
 </body>
