@@ -558,15 +558,59 @@
   }
   .testimonial-card:hover { transform: translateY(-6px); box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
   .testimonial-img {
-    width: 100%; height: 200px;
+    width: 100%; height: 240px;
     background: linear-gradient(135deg, #1a2a35, #0f1820);
     display: flex; align-items: center; justify-content: center;
-    font-size: 3rem; overflow: hidden;
+    overflow: hidden;
   }
   .testimonial-img img {
-    width: 100%; height: 100%; object-fit: cover;
+    width: auto;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    object-position: center;
+    display: block;
+    cursor: zoom-in;
   }
   .testimonial-body { padding: 1.5rem; }
+
+  .image-preview-overlay {
+    position: fixed; inset: 0; z-index: 300;
+    display: none;
+    align-items: flex-start;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.88);
+    backdrop-filter: blur(6px);
+    padding: 2rem 1.5rem;
+    overflow-y: auto;
+  }
+  .image-preview-overlay.open {
+    display: flex;
+  }
+  .image-preview-content {
+    position: relative;
+    max-width: 90vw;
+    margin: auto;
+  }
+  .image-preview-content img {
+    width: auto;
+    max-width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 10px;
+    box-shadow: 0 0 40px rgba(0,0,0,0.5);
+  }
+  .image-preview-close {
+    position: absolute; top: -14px; right: -14px;
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.12);
+    color: #fff;
+    font-size: 1.2rem;
+    border: 1px solid rgba(255,255,255,0.25);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+  }
   .testimonial-text {
     font-size: 0.95rem; line-height: 1.6; color: var(--steel-dark); margin-bottom: 1rem;
     font-style: italic;
@@ -933,27 +977,35 @@
   </div>
   <div class="testimonios-grid">
     <div class="testimonial-card reveal">
-      <div class="testimonial-img">📸</div>
+      <div class="testimonial-img">
+        <img src="img/ASADOR_CLIENTE1.jpeg" alt="Proyecto asador instalado para cliente">
+      </div>
       <div class="testimonial-body">
         <div class="testimonial-text">"Excelente calidad y atención. El asador superó nuestras expectativas. Totalmente recomendado."</div>
         <div class="testimonial-author">Carlos Mendoza</div>
-        <div class="testimonial-role">Propietario Casa de Campo</div>
+        <div class="testimonial-role">Casa de campo</div>
       </div>
     </div>
+
     <div class="testimonial-card reveal">
-      <div class="testimonial-img">📸</div>
+      <div class="testimonial-img">
+        <img src="img/ASADOR_CLIENTE2.jpeg" alt="Proyecto asador estilo ataúd">
+      </div>
       <div class="testimonial-body">
         <div class="testimonial-text">"La precisión en la soldadura y los acabados son notables. Un verdadero producto artesanal."</div>
         <div class="testimonial-author">María García</div>
-        <div class="testimonial-role">Restaurante Premium</div>
+        <div class="testimonial-role">Patio residencial</div>
       </div>
     </div>
+
     <div class="testimonial-card reveal">
-      <div class="testimonial-img">📸</div>
+      <div class="testimonial-img">
+        <img src="img/ASADOR_CLIENTE3.jpeg" alt="Proyecto asador con elevador">
+      </div>
       <div class="testimonial-body">
         <div class="testimonial-text">"Consiguieron exactamente lo que pedimos. El servicio de entrega e instalación fue perfecto."</div>
         <div class="testimonial-author">Roberto López</div>
-        <div class="testimonial-role">Negocio de Catering</div>
+        <div class="testimonial-role">Terraza residencial</div>
       </div>
     </div>
   </div>
@@ -1073,6 +1125,13 @@
 </a>
 
 <button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<div class="image-preview-overlay" id="imagePreviewOverlay">
+  <div class="image-preview-content">
+    <div class="image-preview-close" id="imagePreviewClose">✕</div>
+    <img id="imagePreviewImg" src="" alt="Vista previa de proyecto">
+  </div>
+</div>
 
 <!-- MODAL -->
 <div class="modal-overlay" id="modalOverlay">
@@ -1322,6 +1381,35 @@ function goToImage(index) {
   updateModalImage();
 }
 
+const imagePreviewOverlay = document.getElementById('imagePreviewOverlay');
+const imagePreviewImg = document.getElementById('imagePreviewImg');
+const imagePreviewClose = document.getElementById('imagePreviewClose');
+const testimonialImages = document.querySelectorAll('.testimonial-img img');
+
+testimonialImages.forEach(img => {
+  img.addEventListener('click', () => {
+    imagePreviewImg.src = img.src;
+    imagePreviewImg.alt = img.alt;
+    imagePreviewOverlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  });
+});
+
+imagePreviewClose.addEventListener('click', closeImagePreview);
+imagePreviewOverlay.addEventListener('click', (e) => {
+  if (e.target === imagePreviewOverlay) closeImagePreview();
+});
+
+function closeImagePreview() {
+  imagePreviewOverlay.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+window.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && imagePreviewOverlay.classList.contains('open')) {
+    closeImagePreview();
+  }
+});
 
 // =============================================
 // ANIMACIÓN DE CHISPAS (Canvas)
